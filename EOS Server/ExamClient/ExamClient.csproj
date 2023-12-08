@@ -32,20 +32,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="IRemote">
-      <HintPath>D:\Software\Sec\Nothing\EOS\EOSClient\bin\Release\IRemote.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System" />
-    <Reference Include="QuestionLib">
-      <HintPath>D:\Software\Sec\Nothing\EOS\EOSClient\bin\Release\QuestionLib.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio">
-      <HintPath>D:\Software\Sec\Nothing\EOS\EOSClient\bin\Release\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="EncryptData">
-      <HintPath>D:\Software\Sec\Nothing\EOS\EOSClient\bin\Release\EncryptData.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -93,6 +81,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\pictureBoxIcon.Image.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EncryptData\EncryptData.csproj">
+      <Project>{f6272222-b158-4803-a028-2f0957d9cfac}</Project>
+      <Name>EncryptData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IRemote\IRemote.csproj">
+      <Project>{f23ad411-c557-476a-85a9-b14d15d4a605}</Project>
+      <Name>IRemote</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NAudio\NAudio.csproj">
+      <Project>{a68d169f-781a-46f4-a8d7-4a8367e4af51}</Project>
+      <Name>NAudio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\QuestionLib\QuestionLib.csproj">
+      <Project>{b35ceae5-499c-48cf-91ec-d9e313fa567c}</Project>
+      <Name>QuestionLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

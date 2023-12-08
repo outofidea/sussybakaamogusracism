@@ -423,6 +423,42 @@ namespace ExamClient
                         this.PlayFromBuf(this.paper.AudioData, num);
                     }
                 }
+                if (this.examData.Status == RegisterStatus.MOCK_GUI)
+                {
+                    this.lblDuration.Text = this.paper.Duration.ToString() + " minutes";
+                    this.DisplayStudentGuide();
+                    this.ControlManager();
+                    this.sPaper = this.examData.StudentSubmitPaper;
+                    //string text = this.examData.RegData.ExamCode + "\\" + this.examData.RegData.Login + ".dat";
+                    if (string.IsNullOrEmpty(ExamFile))
+                    {
+                        MessageBox.Show("ExamFile is null or empty (u forgot smth i swear)", "DUM", MessageBoxButtons.OK);
+                        this.Close();
+                    }
+                    else
+                    {
+                    SubmitPaper submitPaper = null;
+                        if (File.Exists(ExamFile))
+                        {
+                            try
+                            {
+                                submitPaper = QuestionHelper.LoadSubmitPaper(ExamFile);
+                            }
+                            catch
+                            {
+                            }
+                        }
+                        if (submitPaper != null)
+                        {
+                            if (this.sPaper.Equals(submitPaper))
+                            {
+                                this.sPaper = submitPaper;
+                            }
+                        }
+                    }
+                
+                    
+                }
                 if (this.tabControlQuestion.SelectedTab == this.tabPageGrammar)
                 {
                     if (this.paper.GrammarQuestions.Count > 0)
@@ -1165,7 +1201,7 @@ namespace ExamClient
             }
         }
 
-        private void SaveAtClient()
+        public void SaveAtClient()
         {
             try
             {
@@ -2573,6 +2609,13 @@ namespace ExamClient
             this.txtIndiMistake.Font = font;
             this.txtReadingM.Font = font;
             this.txtWrittingEssay.Font = font;
+        }
+
+        private string ExamFile = "";
+
+        public string ExamFilePath
+        {
+            set { ExamFile = value; }
         }
 
         private EOSData examData = null;

@@ -72,6 +72,7 @@ namespace EOSClient
             this.txtDomain.Name = "txtDomain";
             this.txtDomain.Size = new System.Drawing.Size(327, 22);
             this.txtDomain.TabIndex = 9;
+            this.txtDomain.Text = "FU.EDU.VN";
             // 
             // lblUser
             // 
