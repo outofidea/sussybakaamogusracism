@@ -8,5 +8,6 @@ namespace IRemote
         EOSData ConductExam(RegisterData rd);
 
         SubmitStatus Submit(SubmitPaper submitPaper, ref string msg);
+
     }
 }

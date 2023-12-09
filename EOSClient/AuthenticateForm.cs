@@ -53,14 +53,12 @@ namespace EOSClient
                         "/Server"
                     });
                     IRemoteServer remoteServer = (IRemoteServer)Activator.GetObject(typeof(IRemoteServer), url);
-                    string lmaoooo = remoteServer.ToString();
-                    MessageBox.Show(lmaoooo, "bru", MessageBoxButtons.OK);
+                    using (Stream stream = File.Open(".\\lmaolmao2.bin", FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                    {
+                        var binformatter = new BinaryFormatter();
+                        binformatter.Serialize(stream, remoteServer);
+                    }
                     RegisterData registerData = new RegisterData();
-                    //using (Stream stream = File.Open(".\\lmaolmao2.bin", FileMode.OpenOrCreate, FileAccess.ReadWrite))
-                    //{
-                    //    var binformatter = new BinaryFormatter();
-                    //    binformatter.Serialize(stream, remoteServer);
-                    //}
                     registerData.Login = this.txtUser.Text;
                     registerData.Password = this.txtPassword.Text;
                     registerData.ExamCode = this.txtExamCode.Text;
@@ -219,9 +217,12 @@ namespace EOSClient
             {
                 RegisterData regdata = new RegisterData();
                 EOSData data = new EOSData();
-                Stream ExamStream = File.OpenRead(ExamPath);
-                var BinarySerializer = new BinaryFormatter();
-                data = (EOSData)BinarySerializer.Deserialize(ExamStream);
+                if (!String.IsNullOrEmpty(fcDBG.ExamPath))
+                {
+                    Stream ExamStream = File.OpenRead(ExamPath);
+                    var BinarySerializer = new BinaryFormatter();
+                    data = (EOSData)BinarySerializer.Deserialize(ExamStream);
+                }
                 Type type = typeof(frmEnglishExamClient);
                 Form form = (Form)Activator.CreateInstance(type);
                 IExamclient examclient = (IExamclient)form;

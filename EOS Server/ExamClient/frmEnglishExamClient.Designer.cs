@@ -587,17 +587,11 @@
             this.txtLetter.Name = "txtLetter";
             this.txtLetter.Size = new global::System.Drawing.Size(48, 20);
             this.txtLetter.TabIndex = 74;
-            this.txtLetter.Leave += new global::System.EventHandler(this.txtLetter_Leave);
-            this.txtLetter.KeyPress += new global::System.Windows.Forms.KeyPressEventHandler(this.txtLetter_KeyPress);
-            this.txtLetter.Enter += new global::System.EventHandler(this.txtLetter_Enter);
             this.txtNumber.Anchor = global::System.Windows.Forms.AnchorStyles.Bottom;
             this.txtNumber.Location = new global::System.Drawing.Point(346, 222);
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new global::System.Drawing.Size(47, 20);
             this.txtNumber.TabIndex = 73;
-            this.txtNumber.Leave += new global::System.EventHandler(this.txtNumber_Leave);
-            this.txtNumber.KeyPress += new global::System.Windows.Forms.KeyPressEventHandler(this.txtNumber_KeyPress);
-            this.txtNumber.Enter += new global::System.EventHandler(this.txtNumber_Enter);
             this.lblMatchNumber.Anchor = (global::System.Windows.Forms.AnchorStyles.Bottom | global::System.Windows.Forms.AnchorStyles.Left);
             this.lblMatchNumber.AutoSize = true;
             this.lblMatchNumber.Font = new global::System.Drawing.Font("Microsoft Sans Serif", 10f, global::System.Drawing.FontStyle.Bold, global::System.Drawing.GraphicsUnit.Point, 0);
