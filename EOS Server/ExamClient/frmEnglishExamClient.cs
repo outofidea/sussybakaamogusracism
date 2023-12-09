@@ -21,6 +21,7 @@ using QuestionLib;
 using QuestionLib.Entity;
 using ScreenShot;
 
+
 namespace ExamClient
 {
     public partial class frmEnglishExamClient : Form, IExamclient
@@ -340,7 +341,7 @@ namespace ExamClient
                         this.DisplayFillBlankQuestion(this.indexFill);
                         this.DisplayEssay();
                         this.TimerTopMost_FirstDisplay();
-                        this.DisableAllKeyBoard();
+                       
                         if (this.paper.EssayQuestion != null)
                         {
                             this.undoStack.Add("");
@@ -351,8 +352,7 @@ namespace ExamClient
                         this.txtOpenCode.Enabled = true;
                         this.btnShowExam.Enabled = true;
                     }
-                    this.StartCloseTCPConnectionsThread();
-                    this.DisableMouse();
+                   
                     this.lblTotalMarks.Text = this.paper.Mark.ToString();
                 }
                 if (this.examData.Status == RegisterStatus.RE_ASSIGN)
@@ -397,10 +397,7 @@ namespace ExamClient
                     this.DisplayEssay();
                     this.txtOpenCode.Enabled = false;
                     this.btnShowExam.Enabled = false;
-                    this.DisableMouse();
-                    this.DisableAllKeyBoard();
                     this.TimerTopMost_FirstDisplay();
-                    this.StartCloseTCPConnectionsThread();
                     this.paper.Mark = this.sPaper.SPaper.Mark;
                     this.lblTotalMarks.Text = this.paper.Mark.ToString();
                     if (this.paper.EssayQuestion != null)
@@ -527,7 +524,6 @@ namespace ExamClient
                     {
                         this.undoStack.Add("");
                     }
-                    this.StartCloseTCPConnectionsThread();
                 }
                 if (this.examData.Status == RegisterStatus.RE_ASSIGN)
                 {
@@ -560,21 +556,11 @@ namespace ExamClient
                     this.paper = QuestionHelper.Re_ConstructPaper(this.paper, this.sPaper);
                     this.RemoveTabPages();
                     this.DisplayEssay();
-                    this.StartCloseTCPConnectionsThread();
                     if (this.paper.EssayQuestion != null)
                     {
                         this.undoStack.Add(this.paper.EssayQuestion.Development);
                     }
                 }
-            }
-            try
-            {
-                ThreadStart start = new ThreadStart(this.CloseApps);
-                Thread thread = new Thread(start);
-                thread.Start();
-            }
-            catch
-            {
             }
         }
 
@@ -648,10 +634,14 @@ namespace ExamClient
         {
             this.closeConnection = false;
             this.keepConnection = true;
-            ScreenCapture screenCapture = new ScreenCapture();
-            Image image = screenCapture.CaptureScreen();
+            Bitmap bitmap = new Bitmap(1920, 1080);
+            Graphics graphics = Graphics.FromImage(bitmap);
+            Rectangle imgsize = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            graphics.FillRectangle(Brushes.White, imgsize);
             MemoryStream memoryStream = new MemoryStream();
-            image.Save(memoryStream, ImageFormat.Jpeg);
+            bitmap.Save(memoryStream, ImageFormat.Jpeg);
+            graphics.Dispose();
+            bitmap.Dispose();
             try
             {
                 IRemoteMonitorServer remoteMonitorServer = (IRemoteMonitorServer)Activator.GetObject(typeof(IRemoteMonitorServer), this.monitorURL);
@@ -730,7 +720,6 @@ namespace ExamClient
                         ":"
                     });
                     this.lstReadingQuestionM.SelectedIndex = this.indexReadingQuestion;
-                    this.DisableNonFunctionKeys();
                 }
             }
         }
@@ -775,7 +764,6 @@ namespace ExamClient
                 });
                 string[] array = matchQuestion.Solution.Split(separator);
                 this.matchingAnswerCount = array.Length;
-                this.DisableNonFunctionKeys();
             }
         }
 
@@ -817,14 +805,12 @@ namespace ExamClient
                     this.cboList = new ArrayList();
                     this.txtList = null;
                     this.timerTopMost.Enabled = false;
-                    this.DisableNonFunctionKeys();
                 }
                 else
                 {
                     this.txtList = new ArrayList();
                     this.cboList = null;
                     this.timerTopMost.Enabled = true;
-                    this.EnableNonFunctionKeys();
                 }
                 int num3 = 0;
                 foreach (string input in array)
@@ -1011,7 +997,6 @@ namespace ExamClient
                     "/",
                     this.paper.GrammarQuestions.Count
                 });
-                this.DisableNonFunctionKeys();
             }
         }
 
@@ -1064,7 +1049,6 @@ namespace ExamClient
                     "/",
                     this.paper.IndicateMQuestions.Count
                 });
-                this.DisableNonFunctionKeys();
             }
         }
 
@@ -1099,11 +1083,6 @@ namespace ExamClient
                     this.txtWrittingEssay.Text = essayQuestion.Development;
                 }
                 this.lblMark.Text = "N/A";
-                if (this.paper.TestType == TestTypeEnum.WRITING_EN)
-                {
-                    this.EnableNonFunctionKeys();
-                    this.EnableMouse();
-                }
             }
         }
 
@@ -1497,14 +1476,12 @@ namespace ExamClient
                 this.lblMark.Text = num.ToString();
                 this.txtReadingM.Focus();
                 this.timerTopMost.Enabled = true;
-                this.DisableNonFunctionKeys();
             }
             if (this.tabControlQuestion.SelectedTab == this.tabPageGrammar)
             {
                 Question question = (Question)this.paper.GrammarQuestions[this.indexGrammar];
                 this.lblMark.Text = question.Mark.ToString();
                 this.timerTopMost.Enabled = true;
-                this.DisableNonFunctionKeys();
                 this.panelQuestionList.Visible = true;
                 this.AddQuestionButon(this.paper.GrammarQuestions.Count);
                 int num2 = 0;
@@ -1523,14 +1500,12 @@ namespace ExamClient
                 MatchQuestion matchQuestion = (MatchQuestion)this.paper.MatchQuestions[this.indexMatching];
                 this.lblMark.Text = matchQuestion.Mark.ToString();
                 this.timerTopMost.Enabled = true;
-                this.EnableNonFunctionKeys();
             }
             if (this.tabControlQuestion.SelectedTab == this.tabPageIndicateMistake)
             {
                 Question question = (Question)this.paper.IndicateMQuestions[this.indexIndicateMistake];
                 this.lblMark.Text = question.Mark.ToString();
                 this.timerTopMost.Enabled = true;
-                this.DisableNonFunctionKeys();
                 this.panelQuestionList.Visible = true;
                 this.AddQuestionButon(this.paper.IndicateMQuestions.Count);
                 int num2 = 0;
@@ -1557,11 +1532,9 @@ namespace ExamClient
                 if (question2.QType == QuestionType.FILL_BLANK_EMPTY)
                 {
                     this.timerTopMost.Enabled = true;
-                    this.EnableNonFunctionKeys();
                 }
                 else
                 {
-                    this.DisableNonFunctionKeys();
                     this.timerTopMost.Enabled = false;
                 }
             }
@@ -1662,8 +1635,6 @@ namespace ExamClient
 
         private void btnFinish_Click(object sender, EventArgs e)
         {
-            this.EnableAllKeyBoard();
-            this.EnableMouse();
             if (this.timeLeft != 0)
             {
                 if (!this.chbWantFinish.Checked)
@@ -2139,7 +2110,6 @@ namespace ExamClient
                 this.txtOpenCode.Enabled = false;
                 this.btnShowExam.Enabled = false;
                 this.TimerTopMost_FirstDisplay();
-                this.DisableAllKeyBoard();
                 if (this.paper.AudioData != null && this.paper.AudioData.Length > 0)
                 {
                     this.PlayFromBuf(this.paper.AudioData, 0);
@@ -2165,29 +2135,6 @@ namespace ExamClient
             }
         }
 
-        private void CloseApps()
-        {
-            while (this.timerCountDown.Enabled)
-            {
-                try
-                {
-                    foreach (Process process in Process.GetProcesses())
-                    {
-                        if (!process.MainWindowTitle.Equals("EOS Login Form"))
-                        {
-                            if (!process.MainWindowTitle.Equals(""))
-                            {
-                                process.Kill();
-                            }
-                        }
-                    }
-                }
-                catch
-                {
-                }
-                Thread.Sleep(1000);
-            }
-        }
 
         private void timerTopMost_Tick(object sender, EventArgs e)
         {
@@ -2195,189 +2142,37 @@ namespace ExamClient
             {
                 base.TopMost = true;
             }
-            try
-            {
-                Clipboard.Clear();
-            }
-            catch
-            {
-            }
         }
 
-        private void txtNumber_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            string value = e.KeyChar.ToString();
-            string text = "0123456789\b";
-            if (text.IndexOf(value) >= 0)
-            {
-                e.Handled = false;
-            }
-            else
-            {
-                e.Handled = true;
-            }
-        }
+        //private void txtNumber_KeyPress(object sender, KeyPressEventArgs e)
+        //{
+        //    string value = e.KeyChar.ToString();
+        //    string text = "0123456789\b";
+        //    if (text.IndexOf(value) >= 0)
+        //    {
+        //        e.Handled = false;
+        //    }
+        //    else
+        //    {
+        //        e.Handled = true;
+        //    }
+        //}
+        //
+        //private void txtLetter_KeyPress(object sender, KeyPressEventArgs e)
+        //{
+        //    string text = e.KeyChar.ToString();
+        //    string text2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\b";
+        //    if (text2.IndexOf(text.ToUpper()) >= 0)
+        //    {
+        //        e.Handled = false;
+        //    }
+        //    else
+        //    {
+        //        e.Handled = true;
+        //    }
+        //}
 
-        private void txtLetter_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            string text = e.KeyChar.ToString();
-            string text2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\b";
-            if (text2.IndexOf(text.ToUpper()) >= 0)
-            {
-                e.Handled = false;
-            }
-            else
-            {
-                e.Handled = true;
-            }
-        }
 
-        private void run()
-        {
-            while (!this.finishClick)
-            {
-                if (this.exitButtonClicked)
-                {
-                    break;
-                }
-                if (this.closeConnection && !this.keepConnection)
-                {
-                    try
-                    {
-                        string[] array = DisconnectWrapper.Connections(DisconnectWrapper.ConnectionState.Established);
-                        foreach (string connectionstring in array)
-                        {
-                            DisconnectWrapper.CloseConnection(connectionstring);
-                        }
-                        Thread.Sleep(this.closeTCPInterval);
-                    }
-                    catch
-                    {
-                    }
-                }
-            }
-        }
-
-        private void StartCloseTCPConnectionsThread()
-        {
-            ThreadStart start = new ThreadStart(this.run);
-            Thread thread = new Thread(start);
-            thread.Start();
-        }
-
-        private void DisableMouse()
-        {
-            if (this.mouseEnabled)
-            {
-                HookManager.MouseClickExt += this.HookManager_MouseMoveExt;
-                this.mouseEnabled = false;
-            }
-        }
-
-        private void EnableMouse()
-        {
-            if (!this.mouseEnabled)
-            {
-                HookManager.MouseClickExt -= this.HookManager_MouseMoveExt;
-                this.mouseEnabled = true;
-            }
-        }
-
-        private void DisableAllKeyBoard()
-        {
-            if (this.keyboardEnabled)
-            {
-                HookManager.KeyDown += this.HookManager_KeyDown;
-                HookManager.KeyUp += this.HookManager_KeyUp;
-                HookManager.KeyPress += this.HookManager_KeyPress;
-                this.keyboardEnabled = false;
-            }
-        }
-
-        private void EnableAllKeyBoard()
-        {
-            if (!this.keyboardEnabled)
-            {
-                HookManager.KeyDown -= this.HookManager_KeyDown;
-                HookManager.KeyUp -= this.HookManager_KeyUp;
-                HookManager.KeyPress -= this.HookManager_KeyPress;
-                this.keyboardEnabled = true;
-            }
-        }
-
-        private void EnableNonFunctionKeys()
-        {
-            this.nonFunctionKeysEnabled = true;
-        }
-
-        private void DisableNonFunctionKeys()
-        {
-            this.nonFunctionKeysEnabled = false;
-        }
-
-        private bool IsAllowKey(Keys kCode)
-        {
-            return kCode == Keys.LShiftKey || kCode == Keys.RShiftKey || kCode == Keys.Oemtilde || kCode == Keys.OemMinus || kCode == Keys.Oemplus || kCode == Keys.OemOpenBrackets || kCode == Keys.OemCloseBrackets || kCode == Keys.OemPipe || kCode == Keys.OemSemicolon || kCode == Keys.OemQuotes || kCode == Keys.Oemcomma || kCode == Keys.OemPeriod || kCode == Keys.OemQuestion || kCode == Keys.Back || kCode == Keys.Space || (kCode >= Keys.D0 && kCode <= Keys.D9) || (kCode >= Keys.NumPad0 && kCode <= Keys.NumPad9) || (kCode >= Keys.A && kCode <= Keys.Z) || (kCode == Keys.Up || kCode == Keys.Down || kCode == Keys.Left || kCode == Keys.Right) || kCode == Keys.Return || (this.paper.EssayQuestion != null && kCode == Keys.Delete) || (this.paper.EssayQuestion != null && kCode == Keys.Tab) || (this.paper.EssayQuestion != null && kCode == Keys.End) || (this.paper.EssayQuestion != null && kCode == Keys.Home);
-        }
-
-        private bool IsAllowKey(int kChar)
-        {
-            string text = "QWERTYUIOPASDFGHJKLZXCVBNM`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+{}|:\"<>?";
-            string value = ((char)kChar).ToString();
-            return text.Contains(value) || kChar == 8 || kChar == 32 || kChar == 13 || (this.paper.EssayQuestion != null && kChar == 9);
-        }
-
-        private void txtNumber_Enter(object sender, EventArgs e)
-        {
-            this.EnableNonFunctionKeys();
-        }
-
-        private void txtNumber_Leave(object sender, EventArgs e)
-        {
-            this.DisableNonFunctionKeys();
-        }
-
-        private void txtLetter_Leave(object sender, EventArgs e)
-        {
-            this.DisableNonFunctionKeys();
-        }
-
-        private void txtLetter_Enter(object sender, EventArgs e)
-        {
-            this.EnableNonFunctionKeys();
-        }
-
-        private void HookManager_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!this.nonFunctionKeysEnabled || !this.IsAllowKey(e.KeyCode))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void HookManager_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (!this.nonFunctionKeysEnabled || !this.IsAllowKey(e.KeyCode))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void HookManager_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!this.nonFunctionKeysEnabled || !this.IsAllowKey((int)e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void HookManager_MouseMoveExt(object sender, MouseEventExtArgs e)
-        {
-            if (e.Button != MouseButtons.Left)
-            {
-                e.Handled = true;
-            }
-        }
 
         private void btnEssayNormal_Click(object sender, EventArgs e)
         {
@@ -2551,25 +2346,6 @@ namespace ExamClient
             }
         }
 
-        private void CloseAppsTest()
-        {
-            foreach (Process process in Process.GetProcesses())
-            {
-                if (!process.MainWindowTitle.StartsWith("ExamClient_ENG"))
-                {
-                    if (!process.MainWindowTitle.Equals("EOS Login Form"))
-                    {
-                        if (!process.ProcessName.StartsWith("explo"))
-                        {
-                            if (!process.MainWindowTitle.Equals(""))
-                            {
-                                process.Kill();
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
         private void nudVol_ValueChanged(object sender, EventArgs e)
         {
