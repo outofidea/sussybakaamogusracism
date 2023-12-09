@@ -6,6 +6,8 @@ press run or debug, depends on ya
 
 bye imna kms
 
+![idk](./things/delet.png)
+
 ![idk](./things/fuck.png)
 
 ![idk](./things/sech.png)
