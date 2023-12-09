@@ -592,15 +592,6 @@ namespace ExamClient
             }
             else
             {
-                if (this.paper.TestType == TestTypeEnum.NOT_WRITING || this.paper.TestType == TestTypeEnum.WRITING_EN)
-                {
-                    int foregroundWindow = Win32.GetForegroundWindow();
-                    if (base.Handle.ToInt32() != foregroundWindow)
-                    {
-                        Win32.SendMessage(foregroundWindow, 274u, 61472, 0);
-                    }
-                    Win32.SetActiveWindow(base.Handle.ToInt32());
-                }
                 if (this.paper.EssayQuestion != null)
                 {
                     if (this.timeLeft % this.autoSaveInteval == 0)

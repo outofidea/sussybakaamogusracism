@@ -10,9 +10,12 @@ press run or debug, depends on ya
 
 bye imna kms
 
+
 PS: pls dont pollute the main branch
 
 i wont fix the consequences
+
+![idk](./things/delet.png)
 
 ![idk](./things/fuck.png)
 

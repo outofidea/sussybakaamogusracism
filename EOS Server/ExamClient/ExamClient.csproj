@@ -78,9 +78,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pictureBoxIcon.Image.jpg" />
+    <EmbeddedResource Include="Resources\frmEnglishExamClient.resx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\EncryptData\EncryptData.csproj">
@@ -100,5 +98,6 @@
       <Name>QuestionLib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
