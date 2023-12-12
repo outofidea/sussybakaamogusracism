@@ -53,11 +53,11 @@ namespace EOSClient
                         "/Server"
                     });
                     IRemoteServer remoteServer = (IRemoteServer)Activator.GetObject(typeof(IRemoteServer), url);
-                    using (Stream stream = File.Open(".\\lmaolmao2.bin", FileMode.OpenOrCreate, FileAccess.ReadWrite))
-                    {
-                        var binformatter = new BinaryFormatter();
-                        binformatter.Serialize(stream, remoteServer);
-                    }
+                    //using (Stream stream = File.Open(".\\lmaolmao2.bin", FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                    //{
+                    //    var binformatter = new BinaryFormatter();
+                    //    binformatter.Serialize(stream, remoteServer);
+                    //}
                     RegisterData registerData = new RegisterData();
                     registerData.Login = this.txtUser.Text;
                     registerData.Password = this.txtPassword.Text;
@@ -250,7 +250,7 @@ namespace EOSClient
         }
 
         // Token: 0x04000017 RID: 23
-        private string version = "C723B2C6-AD27-4E06-A70D-8CE2BB122C5";
+        private readonly string version = "C723B2C6-AD27-4E06-A70D-8CE2BB122C5";
 
         // Token: 0x04000018 RID: 24
         private ServerInfo si = null;
