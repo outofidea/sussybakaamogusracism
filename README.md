@@ -11,7 +11,14 @@ press build (F6)
 press run or debug, depends on ya
 
 bye imna kms
-
+# BYPASS CHECKLIST:
+-[x] Anti TCP socket close (lags or disables internet)
+-[x] Anti app close
+-[x] Anti self topmost
+-[x] No admin priv
+-[]  Listening replay
+# Most important one:
+-[] it works
 
 PS: pls dont pollute the main branch
 
