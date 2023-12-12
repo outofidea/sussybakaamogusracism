@@ -1,6 +1,6 @@
 # DO NOT USE THE RELEASES I HAVENT TESTED IT YET AND IT LOOKS LIKE THERES SOME MORE SERVER-SIDE CHECKS OR SMTH
 
-rules are meant to be broken XD
+> rules are meant to be broken ~Moving Nuclear Bomb, HSR, 2023~ 
 
 build instruction:
 
