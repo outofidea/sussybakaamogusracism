@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="QuestionLib">
-      <HintPath>..\QuestionLib\bin\Debug\QuestionLib.dll</HintPath>
+      <HintPath>..\QuestionLib\obj\Debug\QuestionLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
