@@ -20,24 +20,20 @@ using NAudio.Wave;
 using QuestionLib;
 using QuestionLib.Entity;
 using ScreenShot;
-using log4net;
+
 
 namespace ExamClient
 {
     public partial class frmEnglishExamClient : Form, IExamclient
     {
-        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public frmEnglishExamClient()
         {
             this.InitializeComponent();
-            logger.Info("U opened an even more shitty thing again !");
-            
         }
 
         public void SetExamData(EOSData ed)
         {
             this.examData = ed;
-            logger.Info("loaded examdata (may be null)");
         }
 
         private void ControlManager()
@@ -206,7 +202,6 @@ namespace ExamClient
                 if (this.examData == null)
                 {
                     MessageBox.Show("Get exam data error. Re-assign and Try again!", "Start exam", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    logger.Warn("examdata = null!, halted");
                 }
                 else
                 {
@@ -214,7 +209,6 @@ namespace ExamClient
                     if (this.paper == null)
                     {
                         MessageBox.Show("Get exam paper error. Re-assign and Try again!", "Start exam", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        logger.Warn("exampaper null!");
                     }
                     else
                     {
@@ -223,7 +217,6 @@ namespace ExamClient
                             if (this.paper.AudioData.Length != this.paper.AudioSize)
                             {
                                 MessageBox.Show("Get exam audio error. Re-assign and Try again!", "Start exam", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                logger.Warn("examaudio = null!");
                                 return;
                             }
                         }
@@ -261,9 +254,6 @@ namespace ExamClient
                             this.examData.ServerInfomation.Port,
                             "/Server"
                         });
-
-                        logger.Info($".NET remoting URL: {this.remotingURL}");
-
                         this.monitorURL = string.Concat(new object[]
                         {
                             "tcp:", this.examData.ServerInfomation.MonitorServer_IP,
@@ -272,9 +262,6 @@ namespace ExamClient
                             this.examData.ServerInfomation.MonitorServer_Port,
                             "/RemoteMonitorServer"
                         });
-
-                        logger.Info($"monitoring URL: {this.monitorURL}");
-
                         this.nudFontSize.Enabled = false;
                         this.btnFinish.Enabled = false;
                         this.lblMark.Text = "";
@@ -323,7 +310,6 @@ namespace ExamClient
             catch (Exception ex)
             {
                 MessageBox.Show("Display Paper\n" + ex.ToString() + ex.StackTrace);
-                logger.Fatal($"Fatal exception:{ex.Message}", ex);
             }
         }
 
@@ -1151,7 +1137,7 @@ namespace ExamClient
                     this.closeConnection = false;
                     IRemoteServer remoteServer = (IRemoteServer)Activator.GetObject(typeof(IRemoteServer), this.remotingURL);
                     string lblMesageText = "";
-                    SubmitStatus submitStatus = remoteServer.Submit(sPaper, ref lblMesageText);
+                    SubmitStatus submitStatus = remoteServer.Submit(this.sPaper, ref lblMesageText);
                     this.closeConnection = true;
                     this.Set_lblMesageText(lblMesageText);
                     if (submitStatus == SubmitStatus.OK)
@@ -1174,10 +1160,8 @@ namespace ExamClient
                         }
                     }
                 }
-                catch(Exception e)
+                catch
                 {
-                    //Console.WriteLine(e.ToString());
-                    this.Set_lblSaveServerText(e.ToString());
                     this.closeConnection = true;
                     if (this.timeLeft != 0 && !this.finishClick)
                     {

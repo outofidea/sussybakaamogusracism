@@ -6,22 +6,17 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
-using log4net;
-using log4net.Repository.Hierarchy;
+
 namespace EOSClient
 {
     // Token: 0x02000006 RID: 6
     public partial class AuthenticateForm : Form
     {
-        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType); 
         // Token: 0x0600000F RID: 15 RVA: 0x00002684 File Offset: 0x00000884
         public AuthenticateForm()
         {
             this.InitializeComponent();
-            logger.Info("Fatal error: you opened this shitty thing");
         }
-
-        
 
         bool confirmDBG = false;
         string ExamFilePath = "";

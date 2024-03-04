@@ -18,4 +18,3 @@ using System.Runtime.InteropServices;
 [assembly: Guid("01d2438a-5938-4a61-8939-4d07afb276a5")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.Default | DebuggableAttribute.DebuggingModes.DisableOptimizations | DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints | DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "..\\log4net.config")]

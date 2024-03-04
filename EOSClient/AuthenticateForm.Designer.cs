@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-using log4net;
+
 namespace EOSClient
 {
 	// Token: 0x02000006 RID: 6
