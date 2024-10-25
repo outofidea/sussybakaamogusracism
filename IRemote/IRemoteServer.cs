@@ -3,15 +3,16 @@ using QuestionLib;
 
 namespace IRemote
 {
-    public interface IRemoteServer
-    {
-        EOSData ConductExam(RegisterData rd);
+	// Token: 0x02000007 RID: 7
+	public interface IRemoteServer
+	{
+		// Token: 0x0600000E RID: 14
+		EOSData ConductExam(RegisterData rd);
 
-        SubmitStatus Submit(SubmitPaper submitPaper, ref string msg);
+		// Token: 0x0600000F RID: 15
+		SubmitStatus Submit(SubmitPaper submitPaper, ref string msg);
 
-        //was not in initial interface (added in newer eos version)
-        //added from decompiled file
-        void SaveCaptureImage(byte[] img, string examCode, string login);
-        
-    }
+		// Token: 0x06000010 RID: 16
+		void SaveCaptureImage(byte[] img, string examCode, string login);
+	}
 }

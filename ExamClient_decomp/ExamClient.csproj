@@ -31,18 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EncryptData">
-      <HintPath>..\..\shitty fpt software\EncryptData.dll</HintPath>
-    </Reference>
-    <Reference Include="IRemote">
-      <HintPath>..\..\shitty fpt software\IRemote.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio">
-      <HintPath>..\..\shitty fpt software\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="QuestionLib">
-      <HintPath>..\..\shitty fpt software\QuestionLib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -50,16 +38,15 @@
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="WebEye.Controls.WinForms.WebCameraControl">
-      <HintPath>..\..\shitty fpt software\WebEye.Controls.WinForms.WebCameraControl.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloseConnections2003\DisconnectWrapper.cs" />
-    <Compile Include="CustomAutoScrollPanel\ScrollablePanel.cs" />
+    <Compile Include="CustomAutoScrollPanel\ScrollablePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="EF\BaseVirtualEnvironment.cs" />
     <Compile Include="EF\BaseWin32Entity.cs" />
     <Compile Include="EF\BIOS.cs" />
@@ -87,7 +74,9 @@
     <Compile Include="GetProcesses\User32Helper.cs" />
     <Compile Include="Gma\UserActivityMonitor\HookManager.cs" />
     <Compile Include="Gma\UserActivityMonitor\MouseEventExtArgs.cs" />
-    <Compile Include="NoScrollComboBox.cs" />
+    <Compile Include="NoScrollComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.cs" />
     <Compile Include="QuestionInListBox.cs" />
@@ -99,6 +88,24 @@
     <EmbeddedResource Include="CustomAutoScrollPanel\ScrollablePanel.resources" />
     <EmbeddedResource Include="frmEnglishExamClient.resources" />
     <EmbeddedResource Include="Properties\Resources.resources" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EncryptData\EncryptData.csproj">
+      <Project>{f6272222-b158-4803-a028-2f0957d9cfac}</Project>
+      <Name>EncryptData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IRemote\IRemote.csproj">
+      <Project>{66f54c44-41b7-4b59-a914-983f181e5a48}</Project>
+      <Name>IRemote</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NAudio\NAudio.csproj">
+      <Project>{a68d169f-781a-46f4-a8d7-4a8367e4af51}</Project>
+      <Name>NAudio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QuestionLib\QuestionLib.csproj">
+      <Project>{53ee9b29-fc41-403f-accb-ba63a7b7b4b3}</Project>
+      <Name>QuestionLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

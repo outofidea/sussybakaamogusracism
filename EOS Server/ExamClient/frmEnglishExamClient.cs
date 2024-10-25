@@ -13,7 +13,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using CloseConnections2003;
+using EF;
 using EncryptData;
+using GetProcesses;
 using Gma.UserActivityMonitor;
 using IRemote;
 using NAudio.Wave;
@@ -40,7 +42,7 @@ namespace ExamClient
         public void SetExamData(EOSData ed)
         {
             this.examData = ed;
-            logger.Info("loaded examdata (may be null)");
+            logger.Info("loaded examdata");
         }
 
         private void ControlManager()
@@ -145,21 +147,23 @@ namespace ExamClient
 
         private bool checkFont(string fontName)
         {
-       
+
             using (Font font = new Font(fontName, 12f, FontStyle.Regular))
             {
                 return font.Name.Equals(fontName);
+            }
         }
 
         public void LoadFont()
         {
-            List<string> list = new List<string>();
-            list.Add("Microsoft Sans Serif");
-            list.Add("KaiTi");
-            list.Add("Ms Mincho");
-            list.Add("HGSeikai");
-            list.Add("NtMotoya");
-            InstalledFontCollection installedFontCollection = new InstalledFontCollection();
+            List<string> list = new List<string> {
+                    "Microsoft Sans Serif",
+                    "KaiTi",
+                    "Ms Mincho",
+                    "HGSeikai",
+                    "NtMotoya"
+                };
+            FontCollection installedFontCollection = new InstalledFontCollection();
             FontFamily[] families = installedFontCollection.Families;
             foreach (FontFamily fontFamily in families)
             {
@@ -216,113 +220,114 @@ namespace ExamClient
                     }
                     else
                     {
-                            if (this.paper.ListAudio != null)
+                        if (this.paper.ListAudio != null)
+                        {
+                            int totalAudioLength = 0;
+                            int totalAudioSize = 0;
+                            foreach (AudioInPaper audioInPaper in this.paper.ListAudio)
                             {
-                                int totalAudioLength = 0;
-                                int totalAudioSize = 0;
-                                foreach (AudioInPaper audioInPaper in this.paper.ListAudio)
-                                {
-                                    totalAudioLength += audioInPaper.AudioData.Length;
-                                    totalAudioSize += audioInPaper.AudioSize;
-                                }
+                                totalAudioLength += audioInPaper.AudioData.Length;
+                                totalAudioSize += audioInPaper.AudioSize;
                             }
-                            if(totalAudioLength != totalAudioSize) { 
-                            MessageBox.Show("Get exam audio error. Re-assign and Try again!", "Start exam", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                            if (totalAudioLength != totalAudioSize)
+                            {
+                                MessageBox.Show("Get exam audio error. Re-assign and Try again!", "Start exam", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 logger.Warn("examaudio = null!");
                                 return;
                             }
                         }
-                        if (this.paper.TestType == TestTypeEnum.WRITING_JP || this.paper.TestType == TestTypeEnum.WRITING_CN)
+                    }
+                    if (this.paper.TestType == TestTypeEnum.WRITING_JP || this.paper.TestType == TestTypeEnum.WRITING_CN)
+                    {
+                        if (!this.checkFont("MS Mincho"))
                         {
-                            if (!this.checkFont("MS Mincho"))
-                            {
-                                MessageBox.Show("Cannot find the Japanese/Chinese 'MS Mincho' font! Install the font and start the exam again.", "Start exam", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                Application.Exit();
-                            }
-                            this.nudFontSize.Value = 12m;
+                            MessageBox.Show("Cannot find the Japanese/Chinese 'MS Mincho' font! Install the font and start the exam again.", "Start exam", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            Application.Exit();
                         }
-                        if (this.paper.TestType == TestTypeEnum.WRITING_VN || this.paper.TestType == TestTypeEnum.WRITING_EN)
-                        {
-                            this.txtWrittingEssay.Font = this.lblMC_Text.Font;
-                            this.nudFontSize.Value = 10m;
-                        }
-                        this.lblMachine.Text = Environment.MachineName;
-                        this.loginId = this.examData.RegData.Login;
-                        this.lblLogin.Text = this.loginId;
-                        this.lblExamServer.Text = this.examData.ServerInfomation.ServerAlias;
-                        if (this.examData.RegData.ExamCode.Length >= 6)
-                        {
-                            this.lblExamCode.Text = this.examData.RegData.ExamCode.Substring(0, 6);
-                        }
-                        else
-                        {
-                            this.lblExamCode.Text = this.examData.RegData.ExamCode;
-                        }
-                        this.remotingURL = string.Concat(new object[]
-                        {
+                        this.nudFontSize.Value = 12m;
+                    }
+                    if (this.paper.TestType == TestTypeEnum.WRITING_VN || this.paper.TestType == TestTypeEnum.WRITING_EN)
+                    {
+                        this.txtWrittingEssay.Font = this.lblMC_Text.Font;
+                        this.nudFontSize.Value = 10m;
+                    }
+                    this.lblMachine.Text = Environment.MachineName;
+                    this.loginId = this.examData.RegData.Login;
+                    this.lblLogin.Text = this.loginId;
+                    this.lblExamServer.Text = this.examData.ServerInfomation.ServerAlias;
+                    if (this.examData.RegData.ExamCode.Length >= 6)
+                    {
+                        this.lblExamCode.Text = this.examData.RegData.ExamCode.Substring(0, 6);
+                    }
+                    else
+                    {
+                        this.lblExamCode.Text = this.examData.RegData.ExamCode;
+                    }
+                    this.remotingURL = string.Concat(new object[]
+                    {
                             "tcp:", this.examData.ServerInfomation.IP,
 
                             ":",
                             this.examData.ServerInfomation.Port,
                             "/Server"
-                        });
+                    });
 
-                        logger.Info($".NET remoting URL: {this.remotingURL}");
+                    logger.Info($".NET remoting URL: {this.remotingURL}");
 
-                        this.monitorURL = string.Concat(new object[]
-                        {
+                    this.monitorURL = string.Concat(new object[]
+                    {
                             "tcp://",
                             this.examData.ServerInfomation.MonitorServer_IP,
                             ":",
                             this.examData.ServerInfomation.MonitorServer_Port,
                             "/RemoteMonitorServer"
-                        });
+                    });
 
-                        logger.Info($"monitoring URL: {this.monitorURL}");
+                    logger.Info($"monitoring URL: {this.monitorURL}");
 
-                        this.nudFontSize.Enabled = false;
-                        this.btnFinish.Enabled = false;
-                        this.lblMark.Text = "";
-                        this.lblSaveServer.Text = "";
-                        this.lblTotalMarks.Text = "";
-                        this.lblWordCount.Text = "0 word";
-                        this.lblTime.Text = "";
-                        this.lblDuration.Text = "";
-                        this.lblOver.Text = "";
-                        this.lblReading.Text = "";
-                        this.lblGrammarNumber.Text = "";
-                        this.lblIndicateNumber.Text = "";
-                        this.lblMatchNumber.Text = "";
-                        this.txtColumnA.Text = "";
-                        this.txtColumnB.Text = "";
-                        this.lblMC_Text.Text = "";
-                        this.txtIndiMistake.Text = "";
-                        this.txtReadingM.Text = "";
-                        this.chkReadingM = new CheckBox[6];
-                        this.chkReadingM[0] = this.chkReadingA_M;
-                        this.chkReadingM[1] = this.chkReadingB_M;
-                        this.chkReadingM[2] = this.chkReadingC_M;
-                        this.chkReadingM[3] = this.chkReadingD_M;
-                        this.chkReadingM[4] = this.chkReadingE_M;
-                        this.chkReadingM[5] = this.chkReadingF_M;
-                        this.chkGrammar = new CheckBox[6];
-                        this.chkGrammar[0] = this.chkGrammarA;
-                        this.chkGrammar[1] = this.chkGrammarB;
-                        this.chkGrammar[2] = this.chkGrammarC;
-                        this.chkGrammar[3] = this.chkGrammarD;
-                        this.chkGrammar[4] = this.chkGrammarE;
-                        this.chkGrammar[5] = this.chkGrammarF;
-                        this.chkIndiMistake = new CheckBox[6];
-                        this.chkIndiMistake[0] = this.chkIndiMistakeA;
-                        this.chkIndiMistake[1] = this.chkIndiMistakeB;
-                        this.chkIndiMistake[2] = this.chkIndiMistakeC;
-                        this.chkIndiMistake[3] = this.chkIndiMistakeD;
-                        this.chkIndiMistake[4] = this.chkIndiMistakeE;
-                        this.chkIndiMistake[5] = this.chkIndiMistakeF;
-                        this.ResetFillBlank();
-                        this.LoadFont();
-                        this.DisplayPaper();
-                    }
+                    this.nudFontSize.Enabled = false;
+                    this.btnFinish.Enabled = false;
+                    this.lblMark.Text = "";
+                    this.lblSaveServer.Text = "";
+                    this.lblTotalMarks.Text = "";
+                    this.lblWordCount.Text = "0 word";
+                    this.lblTime.Text = "";
+                    this.lblDuration.Text = "";
+                    this.lblOver.Text = "";
+                    this.lblReading.Text = "";
+                    this.lblGrammarNumber.Text = "";
+                    this.lblIndicateNumber.Text = "";
+                    this.lblMatchNumber.Text = "";
+                    this.lblColumnA.Text = "";
+                    this.lblColumnB.Text = "";
+                    this.lblMC_Text.Text = "";
+                    this.lblIndicateMistake.Text = "";
+                    this.lblReadingContent.Text = "";
+                    this.chkReadingM = new CheckBox[6];
+                    this.chkReadingM[0] = this.chkReadingA_M;
+                    this.chkReadingM[1] = this.chkReadingB_M;
+                    this.chkReadingM[2] = this.chkReadingC_M;
+                    this.chkReadingM[3] = this.chkReadingD_M;
+                    this.chkReadingM[4] = this.chkReadingE_M;
+                    this.chkReadingM[5] = this.chkReadingF_M;
+                    this.chkGrammar = new CheckBox[6];
+                    this.chkGrammar[0] = this.chkGrammarA;
+                    this.chkGrammar[1] = this.chkGrammarB;
+                    this.chkGrammar[2] = this.chkGrammarC;
+                    this.chkGrammar[3] = this.chkGrammarD;
+                    this.chkGrammar[4] = this.chkGrammarE;
+                    this.chkGrammar[5] = this.chkGrammarF;
+                    this.chkIndiMistake = new CheckBox[6];
+                    this.chkIndiMistake[0] = this.chkIndiMistakeA;
+                    this.chkIndiMistake[1] = this.chkIndiMistakeB;
+                    this.chkIndiMistake[2] = this.chkIndiMistakeC;
+                    this.chkIndiMistake[3] = this.chkIndiMistakeD;
+                    this.chkIndiMistake[4] = this.chkIndiMistakeE;
+                    this.chkIndiMistake[5] = this.chkIndiMistakeF;
+                    this.ResetFillBlank();
+                    this.LoadFont();
+                    this.DisplayPaper();
                 }
             }
             catch (Exception ex)
@@ -332,9 +337,11 @@ namespace ExamClient
             }
         }
 
+
+
         private void DisplayPaper()
         {
-            if (this.paper.AudioData != null)
+            if (this.paper.ListAudio != null)
             {
                 this.lblVol.Enabled = true;
                 this.nudVol.Enabled = true;
@@ -346,6 +353,7 @@ namespace ExamClient
                     this.lblDuration.Text = this.paper.Duration.ToString() + " minutes";
                     this.timeLeft = this.paper.Duration * 60;
                     this.lastSave = this.timeLeft;
+                    this.lastSaveImagePaper = this.timeLeft;
                     this.DisplayTimeLeft();
                     this.DisplayStudentGuide();
                     this.RemoveTabPages();
@@ -359,6 +367,7 @@ namespace ExamClient
                         this.DisplayIndiMistake(this.indexIndicateMistake);
                         this.DisplayFillBlankQuestion(this.indexFill);
                         this.DisplayEssay();
+                        this.DisplayImagePaper();
                         this.TimerTopMost_FirstDisplay();
 
                         if (this.paper.EssayQuestion != null)
@@ -370,6 +379,7 @@ namespace ExamClient
                     {
                         this.txtOpenCode.Enabled = true;
                         this.btnShowExam.Enabled = true;
+                        this.chbWantFinish.Enabled = (this.ch)
                     }
 
                     this.lblTotalMarks.Text = this.paper.Mark.ToString();
@@ -414,6 +424,7 @@ namespace ExamClient
                     this.DisplayIndiMistake(this.indexIndicateMistake);
                     this.DisplayFillBlankQuestion(this.indexFill);
                     this.DisplayEssay();
+                    this.DisplaImagePaper();
                     this.txtOpenCode.Enabled = false;
                     this.btnShowExam.Enabled = false;
                     this.TimerTopMost_FirstDisplay();
@@ -423,7 +434,7 @@ namespace ExamClient
                     {
                         this.undoStack.Add(this.paper.EssayQuestion.Development);
                     }
-                    if (this.paper.AudioData != null)
+                    if (this.paper.ListAudio != null)
                     {
                         this.timeLeft += 10;
                         if (this.timeLeft > 60 * this.paper.Duration)
@@ -2087,9 +2098,9 @@ namespace ExamClient
                 this.txtOpenCode.Enabled = false;
                 this.btnShowExam.Enabled = false;
                 this.TimerTopMost_FirstDisplay();
-                if (this.paper.AudioData != null && this.paper.AudioData.Length > 0)
+                if (this.paper.ListAudio != null)
                 {
-                    this.PlayFromBuf(this.paper.AudioData, 0);
+                    byte[] array = this.create
                 }
             }
             else
@@ -2409,14 +2420,14 @@ namespace ExamClient
         private ArrayList listMissScreenImages = new ArrayList();
 
         private string[] qaNo = new string[]
-{
+        {
             "A",
             "B",
             "C",
             "D",
             "E",
             "F"
-};
+        };
 
         private bool closeConnection = true;
 
@@ -2468,5 +2479,6 @@ namespace ExamClient
 
         private delegate void SetTextCallback(string text);
     }
+
 
 }

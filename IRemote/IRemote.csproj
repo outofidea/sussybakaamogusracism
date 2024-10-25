@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F23AD411-C557-476A-85A9-B14D15D4A605}</ProjectGuid>
+    <ProjectGuid>{66F54C44-41B7-4B59-A914-983F181E5A48}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>IRemote</RootNamespace>
     <AssemblyName>IRemote</AssemblyName>
@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="QuestionLib">
-      <HintPath>..\QuestionLib\obj\Debug\QuestionLib.dll</HintPath>
+      <HintPath>..\..\shitty fpt software\QuestionLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -48,7 +48,6 @@
     <Compile Include="RegisterStatus.cs" />
     <Compile Include="ServerInfo.cs" />
     <Compile Include="SubmitStatus.cs" />
-	<Compile Include="IAuthForm.cs"/>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
