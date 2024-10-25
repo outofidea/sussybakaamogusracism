@@ -269,7 +269,7 @@ namespace Gma.UserActivityMonitor
 		// Token: 0x14000004 RID: 4
 		// (add) Token: 0x06000094 RID: 148 RVA: 0x00004124 File Offset: 0x00003124
 		// (remove) Token: 0x06000095 RID: 149 RVA: 0x00004158 File Offset: 0x00003158
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private static event MouseEventHandler s_MouseMove;
 
 		// Token: 0x14000005 RID: 5
@@ -292,7 +292,7 @@ namespace Gma.UserActivityMonitor
 		// Token: 0x14000006 RID: 6
 		// (add) Token: 0x06000098 RID: 152 RVA: 0x000041AC File Offset: 0x000031AC
 		// (remove) Token: 0x06000099 RID: 153 RVA: 0x000041E0 File Offset: 0x000031E0
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private static event EventHandler<MouseEventExtArgs> s_MouseMoveExt;
 
 		// Token: 0x14000007 RID: 7
@@ -315,7 +315,7 @@ namespace Gma.UserActivityMonitor
 		// Token: 0x14000008 RID: 8
 		// (add) Token: 0x0600009C RID: 156 RVA: 0x00004234 File Offset: 0x00003234
 		// (remove) Token: 0x0600009D RID: 157 RVA: 0x00004268 File Offset: 0x00003268
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private static event MouseEventHandler s_MouseClick;
 
 		// Token: 0x14000009 RID: 9
@@ -338,7 +338,7 @@ namespace Gma.UserActivityMonitor
 		// Token: 0x1400000A RID: 10
 		// (add) Token: 0x060000A0 RID: 160 RVA: 0x000042BC File Offset: 0x000032BC
 		// (remove) Token: 0x060000A1 RID: 161 RVA: 0x000042F0 File Offset: 0x000032F0
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private static event EventHandler<MouseEventExtArgs> s_MouseClickExt;
 
 		// Token: 0x1400000B RID: 11
@@ -361,7 +361,7 @@ namespace Gma.UserActivityMonitor
 		// Token: 0x1400000C RID: 12
 		// (add) Token: 0x060000A4 RID: 164 RVA: 0x00004344 File Offset: 0x00003344
 		// (remove) Token: 0x060000A5 RID: 165 RVA: 0x00004378 File Offset: 0x00003378
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private static event MouseEventHandler s_MouseDown;
 
 		// Token: 0x1400000D RID: 13
@@ -384,7 +384,7 @@ namespace Gma.UserActivityMonitor
 		// Token: 0x1400000E RID: 14
 		// (add) Token: 0x060000A8 RID: 168 RVA: 0x000043CC File Offset: 0x000033CC
 		// (remove) Token: 0x060000A9 RID: 169 RVA: 0x00004400 File Offset: 0x00003400
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private static event MouseEventHandler s_MouseUp;
 
 		// Token: 0x1400000F RID: 15
@@ -407,7 +407,7 @@ namespace Gma.UserActivityMonitor
 		// Token: 0x14000010 RID: 16
 		// (add) Token: 0x060000AC RID: 172 RVA: 0x00004454 File Offset: 0x00003454
 		// (remove) Token: 0x060000AD RID: 173 RVA: 0x00004488 File Offset: 0x00003488
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private static event MouseEventHandler s_MouseWheel;
 
 		// Token: 0x14000011 RID: 17
@@ -430,7 +430,7 @@ namespace Gma.UserActivityMonitor
 		// Token: 0x14000012 RID: 18
 		// (add) Token: 0x060000B0 RID: 176 RVA: 0x000044DC File Offset: 0x000034DC
 		// (remove) Token: 0x060000B1 RID: 177 RVA: 0x00004510 File Offset: 0x00003510
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private static event MouseEventHandler s_MouseDoubleClick;
 
 		// Token: 0x14000013 RID: 19
@@ -507,7 +507,7 @@ namespace Gma.UserActivityMonitor
 		// Token: 0x14000014 RID: 20
 		// (add) Token: 0x060000B6 RID: 182 RVA: 0x000046BC File Offset: 0x000036BC
 		// (remove) Token: 0x060000B7 RID: 183 RVA: 0x000046F0 File Offset: 0x000036F0
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private static event KeyPressEventHandler s_KeyPress;
 
 		// Token: 0x14000015 RID: 21
@@ -530,7 +530,7 @@ namespace Gma.UserActivityMonitor
 		// Token: 0x14000016 RID: 22
 		// (add) Token: 0x060000BA RID: 186 RVA: 0x00004744 File Offset: 0x00003744
 		// (remove) Token: 0x060000BB RID: 187 RVA: 0x00004778 File Offset: 0x00003778
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private static event KeyEventHandler s_KeyUp;
 
 		// Token: 0x14000017 RID: 23
@@ -553,7 +553,7 @@ namespace Gma.UserActivityMonitor
 		// Token: 0x14000018 RID: 24
 		// (add) Token: 0x060000BE RID: 190 RVA: 0x000047CC File Offset: 0x000037CC
 		// (remove) Token: 0x060000BF RID: 191 RVA: 0x00004800 File Offset: 0x00003800
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		//[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private static event KeyEventHandler s_KeyDown;
 
 		// Token: 0x14000019 RID: 25

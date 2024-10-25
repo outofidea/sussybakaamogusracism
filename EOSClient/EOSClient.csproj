@@ -113,12 +113,12 @@
       <Project>{f6272222-b158-4803-a028-2f0957d9cfac}</Project>
       <Name>EncryptData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EOS Server\ExamClient\ExamClient.csproj">
-      <Project>{314e4009-fe66-4e04-aef6-2f7360c99dc0}</Project>
+    <ProjectReference Include="..\ExamClient_decomp\ExamClient.csproj">
+      <Project>{abae76e7-cc3f-4623-9425-4e59406ef49e}</Project>
       <Name>ExamClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\IRemote\IRemote.csproj">
-      <Project>{f23ad411-c557-476a-85a9-b14d15d4a605}</Project>
+      <Project>{66f54c44-41b7-4b59-a914-983f181e5a48}</Project>
       <Name>IRemote</Name>
     </ProjectReference>
     <ProjectReference Include="..\NAudio\NAudio.csproj">
