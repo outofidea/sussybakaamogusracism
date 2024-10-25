@@ -33,24 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EncryptData, Version=1.0.6391.30733, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\EncryptData\bin\Debug\EncryptData.dll</HintPath>
-    </Reference>
-    <Reference Include="IRemote, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\IRemote\bin\Debug\IRemote.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.15\lib\net35\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NAudio\bin\Debug\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="QuestionLib, Version=1.0.6409.25801, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\QuestionLib\bin\Debug\QuestionLib.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -125,9 +109,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EncryptData\EncryptData.csproj">
+      <Project>{f6272222-b158-4803-a028-2f0957d9cfac}</Project>
+      <Name>EncryptData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EOS Server\ExamClient\ExamClient.csproj">
       <Project>{314e4009-fe66-4e04-aef6-2f7360c99dc0}</Project>
       <Name>ExamClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IRemote\IRemote.csproj">
+      <Project>{f23ad411-c557-476a-85a9-b14d15d4a605}</Project>
+      <Name>IRemote</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NAudio\NAudio.csproj">
+      <Project>{a68d169f-781a-46f4-a8d7-4a8367e4af51}</Project>
+      <Name>NAudio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QuestionLib\QuestionLib.csproj">
+      <Project>{b35ceae5-499c-48cf-91ec-d9e313fa567c}</Project>
+      <Name>QuestionLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

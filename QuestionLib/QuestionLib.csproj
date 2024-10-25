@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B35CEAE5-499C-48CF-91EC-D9E313FA567C}</ProjectGuid>
+    <ProjectGuid>{53EE9B29-FC41-403F-ACCB-BA63A7B7B4B3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>QuestionLib</RootNamespace>
     <AssemblyName>QuestionLib</AssemblyName>
@@ -32,39 +32,50 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NHibernate">
-      <HintPath>..\NHibernate.dll</HintPath>
+      <HintPath>..\..\shitty fpt software\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioInPaper.cs" />
     <Compile Include="Business\BOAudio.cs" />
     <Compile Include="Business\BOBase.cs" />
     <Compile Include="Business\BOChapter.cs" />
     <Compile Include="Business\BOCourse.cs" />
     <Compile Include="Business\BOEssayQuestion.cs" />
+    <Compile Include="Business\BOLO.cs" />
     <Compile Include="Business\BOMatchQuestion.cs" />
     <Compile Include="Business\BOPassage.cs" />
     <Compile Include="Business\BOQuestion.cs" />
     <Compile Include="Business\BOQuestionAnswer.cs" />
+    <Compile Include="Business\BOQuestionLO.cs" />
     <Compile Include="Business\BOTest.cs" />
+    <Compile Include="Business\BOTestTemplate.cs" />
+    <Compile Include="Business\BOTestTemplateDetails.cs" />
     <Compile Include="Entity\Audio.cs" />
     <Compile Include="Entity\Chapter.cs" />
     <Compile Include="Entity\Course.cs" />
     <Compile Include="Entity\EssayQuestion.cs" />
+    <Compile Include="Entity\LO.cs" />
     <Compile Include="Entity\MatchQuestion.cs" />
     <Compile Include="Entity\Passage.cs" />
     <Compile Include="Entity\Question.cs" />
     <Compile Include="Entity\QuestionAnswer.cs" />
+    <Compile Include="Entity\QuestionLO.cs" />
     <Compile Include="Entity\QuestionType.cs" />
     <Compile Include="Entity\Test.cs" />
+    <Compile Include="Entity\TestTemplate.cs" />
+    <Compile Include="Entity\TestTemplateDetails.cs" />
     <Compile Include="GZipHelper.cs" />
+    <Compile Include="ImagePaper.cs" />
+    <Compile Include="ImagePaperAnswer.cs" />
     <Compile Include="NHHelper.cs" />
     <Compile Include="Paper.cs" />
+    <Compile Include="PaperSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionDistribution.cs" />
     <Compile Include="QuestionHelper.cs" />
@@ -76,10 +87,14 @@
     <EmbeddedResource Include="Entity\Chapter\hbm.xml" />
     <EmbeddedResource Include="Entity\Course\hbm.xml" />
     <EmbeddedResource Include="Entity\EssayQuestion\hbm.xml" />
+    <EmbeddedResource Include="Entity\LO\hbm.xml" />
     <EmbeddedResource Include="Entity\MachQuestion\hbm.xml" />
     <EmbeddedResource Include="Entity\Passage\hbm.xml" />
     <EmbeddedResource Include="Entity\QuestionAnswer\hbm.xml" />
+    <EmbeddedResource Include="Entity\QuestionLO\hbm.xml" />
     <EmbeddedResource Include="Entity\Question\hbm.xml" />
+    <EmbeddedResource Include="Entity\TestTemplateDetails\hbm.xml" />
+    <EmbeddedResource Include="Entity\TestTemplate\hbm.xml" />
     <EmbeddedResource Include="Entity\Test\hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

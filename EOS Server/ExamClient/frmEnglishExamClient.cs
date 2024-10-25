@@ -21,19 +21,22 @@ using QuestionLib;
 using QuestionLib.Entity;
 using ScreenShot;
 using log4net;
+using System.Net;
+using System.ComponentModel.Design;
 
 namespace ExamClient
 {
     public partial class frmEnglishExamClient : Form, IExamclient
     {
+
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public frmEnglishExamClient()
         {
             this.InitializeComponent();
             logger.Info("U opened an even more shitty thing again !");
-            
-        }
 
+        }
         public void SetExamData(EOSData ed)
         {
             this.examData = ed;
@@ -111,6 +114,10 @@ namespace ExamClient
             {
                 this.tabControlQuestion.TabPages.Remove(this.tabPageEssay);
             }
+            if (this.paper.ImgPaper == null)
+            {
+                this.tabControlQuestion.TabPages.Remove(this.tabPageImagePaper);
+            }
             this.tabControlQuestion.SelectedIndexChanged += this.tabControlQuestion_SelectedIndexChanged;
         }
 
@@ -138,19 +145,10 @@ namespace ExamClient
 
         private bool checkFont(string fontName)
         {
-            bool result;
+       
             using (Font font = new Font(fontName, 12f, FontStyle.Regular))
             {
-                if (font.Name.Equals(fontName))
-                {
-                    result = true;
-                }
-                else
-                {
-                    result = false;
-                }
-            }
-            return result;
+                return font.Name.Equals(fontName);
         }
 
         public void LoadFont()
@@ -218,11 +216,18 @@ namespace ExamClient
                     }
                     else
                     {
-                        if (this.paper.AudioData != null)
-                        {
-                            if (this.paper.AudioData.Length != this.paper.AudioSize)
+                            if (this.paper.ListAudio != null)
                             {
-                                MessageBox.Show("Get exam audio error. Re-assign and Try again!", "Start exam", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                int totalAudioLength = 0;
+                                int totalAudioSize = 0;
+                                foreach (AudioInPaper audioInPaper in this.paper.ListAudio)
+                                {
+                                    totalAudioLength += audioInPaper.AudioData.Length;
+                                    totalAudioSize += audioInPaper.AudioSize;
+                                }
+                            }
+                            if(totalAudioLength != totalAudioSize) { 
+                            MessageBox.Show("Get exam audio error. Re-assign and Try again!", "Start exam", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 logger.Warn("examaudio = null!");
                                 return;
                             }
@@ -266,8 +271,8 @@ namespace ExamClient
 
                         this.monitorURL = string.Concat(new object[]
                         {
-                            "tcp:", this.examData.ServerInfomation.MonitorServer_IP,
-
+                            "tcp://",
+                            this.examData.ServerInfomation.MonitorServer_IP,
                             ":",
                             this.examData.ServerInfomation.MonitorServer_Port,
                             "/RemoteMonitorServer"
@@ -355,7 +360,7 @@ namespace ExamClient
                         this.DisplayFillBlankQuestion(this.indexFill);
                         this.DisplayEssay();
                         this.TimerTopMost_FirstDisplay();
-                       
+
                         if (this.paper.EssayQuestion != null)
                         {
                             this.undoStack.Add("");
@@ -366,7 +371,7 @@ namespace ExamClient
                         this.txtOpenCode.Enabled = true;
                         this.btnShowExam.Enabled = true;
                     }
-                   
+
                     this.lblTotalMarks.Text = this.paper.Mark.ToString();
                 }
                 if (this.examData.Status == RegisterStatus.RE_ASSIGN)
@@ -433,42 +438,6 @@ namespace ExamClient
                         num = ((num > 0) ? num : 0);
                         this.PlayFromBuf(this.paper.AudioData, num);
                     }
-                }
-                if (this.examData.Status == RegisterStatus.MOCK_GUI)
-                {
-                    this.lblDuration.Text = this.paper.Duration.ToString() + " minutes";
-                    this.DisplayStudentGuide();
-                    this.ControlManager();
-                    this.sPaper = this.examData.StudentSubmitPaper;
-                    //string text = this.examData.RegData.ExamCode + "\\" + this.examData.RegData.Login + ".dat";
-                    if (string.IsNullOrEmpty(ExamFile))
-                    {
-                        MessageBox.Show("ExamFile is null or empty (u forgot smth i swear)", "DUM", MessageBoxButtons.OK);
-                        this.Close();
-                    }
-                    else
-                    {
-                    SubmitPaper submitPaper = null;
-                        if (File.Exists(ExamFile))
-                        {
-                            try
-                            {
-                                submitPaper = QuestionHelper.LoadSubmitPaper(ExamFile);
-                            }
-                            catch
-                            {
-                            }
-                        }
-                        if (submitPaper != null)
-                        {
-                            if (this.sPaper.Equals(submitPaper))
-                            {
-                                this.sPaper = submitPaper;
-                            }
-                        }
-                    }
-                
-                    
                 }
                 if (this.tabControlQuestion.SelectedTab == this.tabPageGrammar)
                 {
@@ -1174,9 +1143,10 @@ namespace ExamClient
                         }
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     //Console.WriteLine(e.ToString());
+                    logger.Error(e);
                     this.Set_lblSaveServerText(e.ToString());
                     this.closeConnection = true;
                     if (this.timeLeft != 0 && !this.finishClick)
@@ -2396,11 +2366,6 @@ namespace ExamClient
 
         private string ExamFile = "";
 
-        public string ExamFilePath
-        {
-            set { ExamFile = value; }
-        }
-
         private EOSData examData = null;
 
         private string remotingURL = null;
@@ -2503,4 +2468,5 @@ namespace ExamClient
 
         private delegate void SetTextCallback(string text);
     }
+
 }

@@ -15,7 +15,12 @@
     <property name="AudioSize" column="AudioSize" not-null="true" unique="false"/>
     <property name="AudioData" column="AudioData" not-null="true" unique="false" type="BinaryBlob"/>
     <property name="AudioLength" column="AudioLength" not-null="true" unique="false"/>
-  
+
+	<property name="RepeatTime" column="RepeatTime" not-null="false" unique="false"/>
+	<property name="PaddingTime" column="PaddingTime" not-null="false" unique="false"/>
+	<property name="PlayOrder" column="PlayOrder" not-null="false" unique="false"/>
+	  
+
   </class>
 
 </hibernate-mapping>

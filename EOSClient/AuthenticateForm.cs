@@ -13,7 +13,7 @@ namespace EOSClient
     // Token: 0x02000006 RID: 6
     public partial class AuthenticateForm : Form
     {
-        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType); 
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         // Token: 0x0600000F RID: 15 RVA: 0x00002684 File Offset: 0x00000884
         public AuthenticateForm()
         {
@@ -21,7 +21,7 @@ namespace EOSClient
             logger.Info("Fatal error: you opened this shitty thing");
         }
 
-        
+
 
         bool confirmDBG = false;
         string ExamFilePath = "";
@@ -57,6 +57,7 @@ namespace EOSClient
                         this.si.Port,
                         "/Server"
                     });
+                    logger.Info($"remote url: {url}");
                     IRemoteServer remoteServer = (IRemoteServer)Activator.GetObject(typeof(IRemoteServer), url);
                     //using (Stream stream = File.Open(".\\lmaolmao2.bin", FileMode.OpenOrCreate, FileAccess.ReadWrite))
                     //{
@@ -74,7 +75,7 @@ namespace EOSClient
                         var binformatter = new BinaryFormatter();
                         binformatter.Serialize(stream, eosdata);
                     }
-
+                    logger.Info("Wrote eosdata");
                     if (eosdata.Status == RegisterStatus.EXAM_CODE_NOT_EXISTS)
                     {
                         MessageBox.Show("Exam code is not available!", "Start exam", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -121,7 +122,7 @@ namespace EOSClient
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.ToString(),"bruh",MessageBoxButtons.OK);
+                    MessageBox.Show(ex.ToString(), "bruh", MessageBoxButtons.OK);
                     MessageBox.Show("Start Exam Error:\nCannot connect to the EOS server!\n", "Connecting...", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 }
             }
@@ -212,48 +213,12 @@ namespace EOSClient
 
         private void LinkLBLCheckGUI_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
         {
-            if (this.fcDBG == null || this.fcDBG.IsDisposed)
-            {
-                this.fcDBG = new frmConfirmDGBs();
-            }
-            this.fcDBG.ShowDialog();
-            string ExamPath = fcDBG.ExamPath;
-            if (fcDBG.IsConfirmed)
-            {
-                RegisterData regdata = new RegisterData();
-                EOSData data = new EOSData();
-                if (!String.IsNullOrEmpty(fcDBG.ExamPath))
-                {
-                    Stream ExamStream = File.OpenRead(ExamPath);
-                    var BinarySerializer = new BinaryFormatter();
-                    data = (EOSData)BinarySerializer.Deserialize(ExamStream);
-                }
-                Type type = typeof(frmEnglishExamClient);
-                Form form = (Form)Activator.CreateInstance(type);
-                IExamclient examclient = (IExamclient)form;
-                data.GUI = null;
-                data.ServerInfomation = this.si;
-                data.RegData = regdata;
-                examclient.SetExamData(data);
-                form.Show();
 
-            }
-
-
-            //DialogResult confirmResult = MessageBox.Show("Are you sure to delete this item ??", "Confirm Delete!!", MessageBoxButtons.YesNo);
-            //
-            //if (confirmResult == DialogResult.Yes)
-            //{
-            //    Type type = typeof(frmEnglishExamClient);
-            //    Form form = (Form)Activator.CreateInstance(type);
-            //	form.Show();
-            //}
-            //else if (confirmResult == DialogResult.Cancel)
-            //{
-            //}
+            frmEnglishExamClient form = new frmEnglishExamClient();
+            IExamclient examclient = (IExamclient)form;
+            form.ShowDialog();
 
         }
-
         // Token: 0x04000017 RID: 23
         private readonly string version = "C723B2C6-AD27-4E06-A70D-8CE2BB122C5";
 

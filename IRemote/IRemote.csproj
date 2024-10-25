@@ -48,6 +48,7 @@
     <Compile Include="RegisterStatus.cs" />
     <Compile Include="ServerInfo.cs" />
     <Compile Include="SubmitStatus.cs" />
+	<Compile Include="IAuthForm.cs"/>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
